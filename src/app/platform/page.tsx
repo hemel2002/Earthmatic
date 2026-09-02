@@ -2,6 +2,13 @@ import type { Metadata } from "next"
 import { CtaButton } from "@/components/marketing/cta-button"
 import { SectionHeading } from "@/components/marketing/section-heading"
 import { PlaceholderBadge } from "@/components/marketing/placeholder-badge"
+import {
+  DataModelIllustration,
+  EnergyMonitoringIllustration,
+  EvidenceTrailIllustration,
+  SupplierNetworkIllustration,
+  UncertaintyIllustration,
+} from "@/components/marketing/feature-illustrations"
 import { JsonLd } from "@/components/seo/json-ld"
 import { breadcrumbSchema } from "@/components/seo/schema"
 import { buildMetadata } from "@/lib/metadata"
@@ -17,22 +24,27 @@ const FEATURES = [
   {
     title: "One data model, every framework",
     body: "Enter activity data once. Output to GHG Protocol, CDP, SBTi progress reporting, buyer questionnaires and CBAM declarations without rebuilding the underlying numbers.",
+    Illustration: DataModelIllustration,
   },
   {
     title: "Evidence attached to every figure",
     body: "Each data point links to its source document. When an auditor asks where a number came from, the answer takes seconds.",
+    Illustration: EvidenceTrailIllustration,
   },
   {
     title: "Built for incomplete data",
     body: "Factories in this region do not have clean submetering. The platform handles estimation, documents the method used, flags the uncertainty, and shows you what to fix first.",
+    Illustration: UncertaintyIllustration,
   },
   {
     title: "Energy monitoring alongside carbon",
     body: "Live consumption data from your meters, benchmarked against the specific energy consumption baselines set during your audit.",
+    Illustration: EnergyMonitoringIllustration,
   },
   {
     title: "Supplier data collection",
     body: "Send structured requests to your own suppliers, track responses, and pull the results straight into Scope 3.",
+    Illustration: SupplierNetworkIllustration,
   },
 ]
 
@@ -86,14 +98,8 @@ export default function PlatformPage() {
                   {feature.body}
                 </p>
               </div>
-              <div
-                aria-hidden="true"
-                className={
-                  "flex aspect-video items-center justify-center rounded-lg border border-dashed border-border bg-card/40 font-mono text-xs text-muted-foreground " +
-                  (index % 2 === 1 ? "lg:order-1" : "")
-                }
-              >
-                Product screenshot — pending platform UI
+              <div className={index % 2 === 1 ? "lg:order-1" : undefined}>
+                <feature.Illustration />
               </div>
             </div>
           ))}

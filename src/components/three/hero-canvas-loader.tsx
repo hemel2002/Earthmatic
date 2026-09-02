@@ -1,12 +1,11 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useEffect, useState } from "react"
-import { useReducedMotion } from "@/hooks/use-reduced-motion"
+import { useCanRender3D } from "@/hooks/use-can-render-3d"
 import { HeroStaticFallback } from "@/components/three/hero-static-fallback"
 
-// ssr:false + this being rendered only once WebGL2 capability is confirmed
-// means the Three.js chunk is never even requested for reduced-motion or
+// ssr:false + this being rendered only once capability is confirmed means
+// the Three.js chunk is never even requested for reduced-motion or
 // no-WebGL2 visitors -- not just paused after download.
 const EnergyProfileHero = dynamic(
   () =>
@@ -16,31 +15,13 @@ const EnergyProfileHero = dynamic(
   { ssr: false, loading: () => <HeroStaticFallback /> }
 )
 
-function supportsWebGL2() {
-  try {
-    const canvas = document.createElement("canvas")
-    return !!canvas.getContext("webgl2")
-  } catch {
-    return false
-  }
-}
-
 export function HeroCanvasLoader() {
-  const reducedMotion = useReducedMotion()
-  const [webglCapable, setWebglCapable] = useState<boolean | null>(null)
+  const canRender3D = useCanRender3D()
 
-  useEffect(() => {
-    // Bridging to a browser-only capability (WebGL2 support) the component
-    // cannot know synchronously during SSR -- one of the legitimate cases
-    // for setState-in-effect, not a synchronization bug.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setWebglCapable(supportsWebGL2())
-  }, [])
-
-  // null = capability not yet determined (server render + first client tick)
-  // -- render the static fallback so SSR and initial hydration agree, and so
-  // the WebGL2 probe itself never blocks first paint.
-  if (reducedMotion || webglCapable === false || webglCapable === null) {
+  // null/false -- capability not yet known, reduced motion, or no WebGL2:
+  // render the static fallback so SSR/hydration agree and the Three.js
+  // chunk is never fetched for visitors who won't use it.
+  if (!canRender3D) {
     return <HeroStaticFallback />
   }
 
