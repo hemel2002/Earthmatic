@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Token architecture: primitive -> semantic -> component (3-tier chain).
+ * Declared as plain :root custom properties (not wrapped in a custom
+ * @layer) to match Tailwind v4 + shadcn's own convention -- Tailwind v4
+ * already owns cascade-layer ordering internally via `@import "tailwindcss"`,
+ * and un-layered custom-property declarations don't participate in the
+ * layered-rule precedence fight the way selector/declaration rules do, so
+ * there's no conflict risk in leaving them unlayered here.
+ *
+ * Dark-only by design: Earthmatic's brief calls for a single instrument-panel
+ * aesthetic, not a light/dark product -- so :root carries the dark palette
+ * directly (no .dark-class toggle, no next-themes, no FOUC risk category).
+ * The .dark class is still applied on <html> in layout.tsx purely so
+ * shadcn's own dark: utility refinements (see button.tsx) activate; a future
+ * light theme would slot in as a new [data-theme="light"] block remapping
+ * these same semantic names to new primitives.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ---------- PRIMITIVE TIER: raw OKLCH ladders ---------- */
+  --ink-seed: oklch(0.62 0.02 255);
+  --ink-50: oklch(from var(--ink-seed) 0.985 calc(c * 0.1) h);
+  --ink-100: oklch(from var(--ink-seed) 0.93 calc(c * 0.2) h);
+  --ink-200: oklch(from var(--ink-seed) 0.84 calc(c * 0.4) h);
+  --ink-300: oklch(from var(--ink-seed) 0.72 calc(c * 0.6) h);
+  /* L raised from the ladder's straight-line 0.6 to 0.64 -- at 0.6 this token
+     (used as --muted-foreground) fell to a 4.22:1 contrast ratio against the
+     tabs-list background, short of WCAG AA's 4.5:1 for normal text (caught
+     by an axe scan in tests/e2e/accessibility.spec.ts). */
+  --ink-400: oklch(from var(--ink-seed) 0.64 calc(c * 0.8) h);
+  --ink-500: oklch(from var(--ink-seed) 0.48 c h);
+  --ink-600: oklch(from var(--ink-seed) 0.38 c h);
+  --ink-700: oklch(from var(--ink-seed) 0.3 calc(c * 1.1) h);
+  --ink-800: oklch(from var(--ink-seed) 0.235 calc(c * 1.1) h);
+  --ink-900: oklch(from var(--ink-seed) 0.185 c h);
+  --ink-950: oklch(from var(--ink-seed) 0.14 calc(c * 0.9) h);
+
+  --amber-seed: oklch(0.75 0.16 70);
+  --amber-100: oklch(from var(--amber-seed) 0.93 calc(c * 0.3) h);
+  --amber-300: oklch(from var(--amber-seed) 0.8 calc(c * 0.7) h);
+  --amber-400: oklch(from var(--amber-seed) 0.75 c h);
+  --amber-500: oklch(from var(--amber-seed) 0.7 c h);
+  --amber-600: oklch(from var(--amber-seed) 0.62 calc(c * 0.95) h);
+  --amber-700: oklch(from var(--amber-seed) 0.52 calc(c * 0.85) h);
+
+  --success-500: oklch(0.62 0.14 145);
+  --danger-500: oklch(0.6 0.19 25);
+
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---------- SEMANTIC TIER: shadcn-expected names, dark palette ---------- */
+  --background: var(--ink-950);
+  --foreground: var(--ink-50);
+  --card: var(--ink-900);
+  --card-foreground: var(--ink-50);
+  --popover: var(--ink-900);
+  --popover-foreground: var(--ink-50);
+  --primary: var(--amber-500);
+  --primary-foreground: var(--ink-950);
+  --secondary: var(--ink-800);
+  --secondary-foreground: var(--ink-50);
+  --muted: var(--ink-800);
+  --muted-foreground: var(--ink-400);
+  --accent: var(--ink-700);
+  --accent-foreground: var(--ink-50);
+  --destructive: var(--danger-500);
+  --destructive-foreground: var(--ink-50);
+  --border: var(--ink-700);
+  --input: var(--ink-700);
+  --ring: var(--amber-500);
+  --radius: 0.5rem;
+
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  --font-mono: var(--font-data);
+
+  /* shadcn scaffold defaults kept as-is -- unused until a chart/sidebar
+     component is actually built (YAGNI), left here only so `shadcn add`
+     for either later doesn't collide with undefined vars. */
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: var(--ink-900);
+  --sidebar-foreground: var(--ink-50);
+  --sidebar-primary: var(--amber-500);
+  --sidebar-primary-foreground: var(--ink-950);
+  --sidebar-accent: var(--ink-700);
+  --sidebar-accent-foreground: var(--ink-50);
+  --sidebar-border: var(--ink-700);
+  --sidebar-ring: var(--amber-500);
+
+  /* ---------- COMPONENT TIER: our custom marketing components ---------- */
+  --cta-primary-bg: var(--primary);
+  --cta-primary-fg: var(--primary-foreground);
+  --cta-secondary-border: var(--amber-400);
+  --process-strip-connector: var(--ink-700);
+  --stat-value-color: var(--amber-400);
+  --data-label-color: var(--ink-400);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ink-50: var(--ink-50);
+  --color-ink-100: var(--ink-100);
+  --color-ink-200: var(--ink-200);
+  --color-ink-300: var(--ink-300);
+  --color-ink-400: var(--ink-400);
+  --color-ink-500: var(--ink-500);
+  --color-ink-600: var(--ink-600);
+  --color-ink-700: var(--ink-700);
+  --color-ink-800: var(--ink-800);
+  --color-ink-900: var(--ink-900);
+  --color-ink-950: var(--ink-950);
+  --color-amber-100: var(--amber-100);
+  --color-amber-300: var(--amber-300);
+  --color-amber-400: var(--amber-400);
+  --color-amber-500: var(--amber-500);
+  --color-amber-600: var(--amber-600);
+  --color-amber-700: var(--amber-700);
+  --color-success: var(--success-500);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  ::selection {
+    @apply bg-amber-500/30 text-foreground;
+  }
+}
+
+@layer utilities {
+  .font-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The WebGL canvas already gets its own compositor layer -- no static
+     will-change here. Containment keeps its repaints from leaking layout/paint
+     cost to sibling DOM (frontend-perf-animation-gpu-containment skill). */
+  .hero-canvas-wrap {
+    contain: layout paint;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@view-transition {
+  navigation: auto;
+}

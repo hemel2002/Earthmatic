@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -rl \"CLAUDE_PLUGIN_ROOT\\\\|\\\\${CLAUDE_PLUGIN\" superpowers/skills/)",
+      "Bash(file superpowers/skills/subagent-driven-development/scripts/* superpowers/skills/systematic-debugging/find-polluter.sh superpowers/skills/brainstorming/scripts/*)",
+      "Bash(grep -rEn \"curl |wget |rm -rf|eval \\\\\\\\$\\\\\\\\\\(|base64 -d|nc -e|/dev/tcp\" superpowers/skills/)",
+      "Bash(cd \"/Users/hemal/Downloads/Eartmatic web\" && mkdir -p .claude/skills && ls -la .claude/skills)",
+      "Bash(rm -rf '/Users/hemal/Downloads/Eartmatic web/.claude/skills/frontend-design-LICENSE')",
+      "Bash(mkdir -p '/Users/hemal/Downloads/Eartmatic web/.claude/skills/.vendor-licenses')",
+      "Bash(cp /private/tmp/claude-501/-Users-hemal-Downloads-Eartmatic-web/d6f6bd2c-36e0-4401-9157-dfe5de3dc1f0/scratchpad/skill-review/frontend-design/LICENSE '/Users/hemal/Downloads/Eartmatic web/.claude/skills/.vendor-licenses/LICENSE-frontend-design-package.txt')",
+      "Edit(/.claude/skills/ui-styling/**)",
+      "Bash(textutil -convert txt -stdout \"Earthmatic.docx\")",
+      "Bash(npm -v)",
+      "Bash(npx -v)",
+      "Bash(npm view *)",
+      "Bash(npx create-next-app@latest --help)",
+      "Bash(npx create-next-app@latest .scaffold-tmp --typescript --tailwind --eslint --app --src-dir --import-alias @/* --use-npm --disable-git --yes)",
+      "Bash(npx create-next-app@latest scaffold-tmp --typescript --tailwind --eslint --app --src-dir --import-alias @/* --use-npm --disable-git --yes)",
+      "Bash(git init *)",
+      "Bash(npx shadcn@latest init --help)",
+      "Bash(npx shadcn@latest init -y)",
+      "Bash(npx shadcn@latest init -y -b radix)",
+      "Bash(npx shadcn@latest init -y -d -b radix)",
+      "Bash(npm install *)",
+      "Bash(npx shadcn@latest add card input label textarea select form navigation-menu dropdown-menu dialog sheet badge separator tabs accordion sonner -y)"
+    ],
+    "additionalDirectories": [
+      "/Users/hemal/Downloads/Eartmatic web/.claude"
+    ]
+  }
+}

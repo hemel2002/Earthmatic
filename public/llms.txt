@@ -1,0 +1,15 @@
+# Earthmatic
+
+> Earthmatic measures energy and carbon in industrial operations across South Asia, then builds the systems that keep those numbers accurate year after year. Audit-grade methodology, delivered by engineers who have been on the factory floor.
+
+## Docs
+
+- [Home](/): Overview of Earthmatic's carbon accounting, energy audit and carbon project services for industrial operations in South Asia.
+- [Services](/services): The five services Earthmatic provides and the six-step process (Scope, Measure, Model, Reduce, Verify, Maintain) used on every engagement.
+- [Platform](/platform): The Earthmatic software platform for holding emissions data, energy meters and evidence trails, currently in development with early clients.
+- [Work](/work): Case studies with measured results from carbon accounting, energy audit and carbon project engagements.
+- [Insights](/insights): Regulation explainers, technical notes and market notes on carbon accounting, energy audits and South Asian industrial decarbonisation.
+- [About](/about): Earthmatic's origin, working principles, team and where the firm operates.
+- [Contact](/contact): How to book an assessment, send a general enquiry, or reach Earthmatic directly.
+
+<!-- NEXT_PUBLIC_SITE_URL is currently a placeholder domain; update this file's absolute-URL context once the production domain is set. -->
