@@ -44,6 +44,5 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Dark-only theme.** No light mode/toggle — see the comment block at the top of `src/app/globals.css`.
 - **3D hero** (`src/components/three/`) is lazy-loaded client-only, gated on `prefers-reduced-motion` and WebGL2 support, and falls back to a static SVG with an identical aspect ratio. Its JS chunk (~230KB gzip, dominated by the React Three Fiber reconciler itself) is isolated to the `/` route only — verified via a network-request check, not just code-splitting intent.
 - **Sample content** (3 Insights articles, 3 case studies, placeholder team bios) is visibly badged via `PlaceholderBadge` — see `[[project-skills-installed]]`-style notes inline in the content frontmatter (`sample: true`).
-- **Forms** post to local Next.js Route Handlers (`src/app/api/forms/*`) validated with zod and stored as JSONL via `src/lib/forms-store.ts` — not wired to a real email/DB backend yet; the swap seam is documented in that file.
+- **Forms** post to local Next.js Route Handlers (`src/app/api/forms/*`) validated with zod and stored as JSONL via `src/lib/forms-store.ts` — not wired to a real email/DB backend yet. On Vercel this writes to `/tmp` so the form doesn't 500, but `/tmp` isn't durable there; treat production submissions as logged (via `notifySubmission`), not safely stored, until a real backend is wired in.
 - Individual `/services/[slug]` and `/industries/*` pages are Phase 2, per the brief's explicit scope line — the services nav links to `/services#<slug>` anchors on the hub page instead.
-# Earthmatic
